@@ -27,26 +27,41 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Personal Expenses'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {},
+            iconSize: 30,
+          )
+        ],
       ),
       body: SingleChildScrollView(
-              child: Column(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                child: Card(
-                  color: Colors.blue,
-                  child: Text(
-                    'CHART!',
-                  ),
-                  elevation: 5,
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              child: Card(
+                color: Colors.blue,
+                child: Text(
+                  'CHART!',
                 ),
+                elevation: 5,
               ),
-              UserTransactions(),
-            ],
-          ),
+            ),
+            UserTransactions(),
+          ],
+        ),
       ),
-      );
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          size: 30,
+        ),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 }
