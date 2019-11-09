@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expenses_app/widgets/user_transactions.dart';
 
-class NewTransaction extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+class NewTransaction extends StatefulWidget {
   final Function addNewTransactionHandler;
 
   NewTransaction({@required this.addNewTransactionHandler});
 
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
+
   void submitTransactionData() {
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
-    
+
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
-    
-    addNewTransactionHandler(
-                  title: enteredTitle,
-                  amount: enteredAmount,
-                );
+
+    widget.addNewTransactionHandler(
+      title: enteredTitle,
+      amount: enteredAmount,
+    );
+
+    Navigator.of(context).pop();
   }
 
   @override

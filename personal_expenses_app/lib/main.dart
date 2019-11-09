@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import './widgets/user_transactions.dart';
+
+import './widgets/new_transaction.dart';
+import './widgets/transaction_list.dart';
+import './models/transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,12 +17,64 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   // String titleInput;
   // String amountInput;
 
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _userTransactions = [
+    Transaction(
+      id: "t1",
+      title: "New Shoes",
+      amount: 69.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t2",
+      title: "Weekly Groceries",
+      amount: 16.53,
+      date: DateTime.now(),
+    ),
+  ];
+
+  void _addNewTransaction({@required String title, @required double amount}) {
+    final newTransaction = Transaction(
+      title: title,
+      amount: amount,
+      date: DateTime.now(),
+      id: DateTime.now().toString(),
+    );
+    setState(() {
+      _userTransactions.add(newTransaction);
+    });
+  }
+
+  void _startAddNewTransaction(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          // Legacy.
+          // In past we were need to add guestre detector to catch the touch event on modal sheet
+          // so we can prevent the modal sheet from closing accidently.
+
+          // return GestureDetector(
+          //   child: NewTransaction(
+          //     addNewTransactionHandler: _addNewTransaction,
+          //   ),
+          //   onTap: () {},
+          //   behavior: HitTestBehavior.opaque,
+          // );
+
+          // But since this problem is solved we don't need this approach anymore.
+          return NewTransaction(
+            addNewTransactionHandler: _addNewTransaction,
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +85,7 @@ class MyHomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () => _startAddNewTransaction(context),
             iconSize: 30,
           )
         ],
@@ -50,7 +105,9 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            UserTransactions(),
+            TransactionList(
+              userTransctions: _userTransactions,
+            ),
           ],
         ),
       ),
@@ -59,7 +116,7 @@ class MyHomePage extends StatelessWidget {
           Icons.add,
           size: 30,
         ),
-        onPressed: () {},
+        onPressed: () => _startAddNewTransaction(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
