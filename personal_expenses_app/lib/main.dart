@@ -12,6 +12,30 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       title: "Personal Expenses",
+      theme: ThemeData(
+          primarySwatch: Colors.purple,
+          accentColor: Colors.amber,
+          primaryIconTheme: IconThemeData(color: Colors.white, size: 30),
+          accentIconTheme: IconThemeData(color: Colors.white, size: 30),
+          cursorColor: Colors.purple,
+          hintColor: Colors.purple,
+          fontFamily: 'QuickSand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  title: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+          )),
       home: MyHomePage(),
     );
   }
@@ -27,18 +51,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-      id: "t1",
-      title: "New Shoes",
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t2",
-      title: "Weekly Groceries",
-      amount: 16.53,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "New Shoes",
+    //   amount: 69.99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t2",
+    //   title: "Weekly Groceries",
+    //   amount: 16.53,
+    //   date: DateTime.now(),
+    // ),
   ];
 
   void _addNewTransaction({@required String title, @required double amount}) {
@@ -55,25 +79,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startAddNewTransaction(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        builder: (_) {
-          // Legacy.
-          // In past we were need to add guestre detector to catch the touch event on modal sheet
-          // so we can prevent the modal sheet from closing accidently.
+      context: context,
+      builder: (_) {
+        // Legacy.
+        // In past we were need to add guestre detector to catch the touch event on modal sheet
+        // so we can prevent the modal sheet from closing accidently.
 
-          // return GestureDetector(
-          //   child: NewTransaction(
-          //     addNewTransactionHandler: _addNewTransaction,
-          //   ),
-          //   onTap: () {},
-          //   behavior: HitTestBehavior.opaque,
-          // );
+        // return GestureDetector(
+        //   child: NewTransaction(
+        //     addNewTransactionHandler: _addNewTransaction,
+        //   ),
+        //   onTap: () {},
+        //   behavior: HitTestBehavior.opaque,
+        // );
 
-          // But since this problem is solved we don't need this approach anymore.
-          return NewTransaction(
-            addNewTransactionHandler: _addNewTransaction,
-          );
-        });
+        // But since this problem is solved we don't need this approach anymore.
+        return NewTransaction(
+          addNewTransactionHandler: _addNewTransaction,
+        );
+      },
+    );
   }
 
   @override
@@ -98,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               width: double.infinity,
               child: Card(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
                 child: Text(
                   'CHART!',
                 ),
