@@ -16,19 +16,23 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.purple,
           accentColor: Colors.amber,
+          //errorColor: Colors.red,
           primaryIconTheme: IconThemeData(color: Colors.white, size: 30),
           accentIconTheme: IconThemeData(color: Colors.white, size: 30),
           cursorColor: Colors.purple,
           hintColor: Colors.purple,
           fontFamily: 'QuickSand',
           textTheme: ThemeData.light().textTheme.copyWith(
-              title: TextStyle(
-                fontFamily: 'OpenSans',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+                title: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                button: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold
+                )
               ),
-              button:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
                   title: TextStyle(
@@ -75,11 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction({
-    @required String title,
-    @required double amount,
-    @required DateTime chosenDate,
-  }) {
+  void _addNewTransaction({@required String title, @required double amount, @required DateTime chosenDate,}) {
     final newTransaction = Transaction(
       title: title,
       amount: amount,
@@ -115,6 +115,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((transactionElement) => transactionElement.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -134,11 +140,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(
-              recentTransactions: _recentTransactions,
-            ),
+            Chart(recentTransactions: _recentTransactions,),
             TransactionList(
               userTransctions: _userTransactions,
+              deleteTransaction: _deleteTransaction,
             ),
           ],
         ),
