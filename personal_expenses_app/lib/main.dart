@@ -23,16 +23,13 @@ class MyApp extends StatelessWidget {
           hintColor: Colors.purple,
           fontFamily: 'QuickSand',
           textTheme: ThemeData.light().textTheme.copyWith(
-                title: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-                button: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold
-                )
+              title: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
+              button:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
                   title: TextStyle(
@@ -79,7 +76,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction({@required String title, @required double amount, @required DateTime chosenDate,}) {
+  void _addNewTransaction({
+    @required String title,
+    @required double amount,
+    @required DateTime chosenDate,
+  }) {
     final newTransaction = Transaction(
       title: title,
       amount: amount,
@@ -117,33 +118,47 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _deleteTransaction(String id) {
     setState(() {
-      _userTransactions.removeWhere((transactionElement) => transactionElement.id == id);
+      _userTransactions
+          .removeWhere((transactionElement) => transactionElement.id == id);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text('Personal Expenses'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+          iconSize: 30,
+        )
+      ],
+    );
+
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Personal Expenses'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
-            iconSize: 30,
-          )
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(recentTransactions: _recentTransactions,),
-            TransactionList(
-              userTransctions: _userTransactions,
-              deleteTransaction: _deleteTransaction,
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height - MediaQuery.of(context).padding.top) *
+                    0.3,
+                child: Chart(
+                  recentTransactions: _recentTransactions,
+                )),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height - MediaQuery.of(context).padding.top) *
+                  0.7,
+              child: TransactionList(
+                userTransctions: _userTransactions,
+                deleteTransaction: _deleteTransaction,
+              ),
             ),
           ],
         ),

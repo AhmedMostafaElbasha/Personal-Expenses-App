@@ -10,9 +10,7 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 460,
-      child: userTransctions.isEmpty
+    return userTransctions.isEmpty
           ? Column(
               children: <Widget>[
                 Text(
@@ -70,7 +68,6 @@ class TransactionList extends StatelessWidget {
                 );
               },
               itemCount: userTransctions.length,
-            ),
-    );
+            );
   }
 }
