@@ -60,19 +60,20 @@ class _NewTransactionState extends State<NewTransaction> {
       return LayoutBuilder(builder: (builderContext, constraints) {
         return SafeArea(
           child: Container(
+            height: constraints.maxHeight *0.44,
             color: Colors.white,
             child: Column(
               children: <Widget>[
                 Padding(padding: EdgeInsets.only(top:constraints.maxHeight * 0.01,)),
-                Container(height: constraints.maxHeight * 0.05 ,child: Text('Expense Date', style: Theme.of(context).textTheme.title,)),
+                Container(height: constraints.maxHeight * 0.02 ,child: Text('Expense Date', style: Theme.of(context).textTheme.title,)),
                 SizedBox(height: constraints.maxHeight *0.02,),
                 Container(
-                  height: constraints.maxHeight * 0.4,
+                  height: constraints.maxHeight * 0.3,
                   child: _cupertinoDatePicker
                 ),
-                SizedBox(height: constraints.maxHeight *0.02,),
+                SizedBox(height: constraints.maxHeight *0.01,),
                 Container(
-                  height: constraints.maxHeight * 0.10,
+                  height: constraints.maxHeight * 0.07,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
