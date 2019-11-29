@@ -12,13 +12,12 @@ class ResponsivePageBody extends StatefulWidget {
   final List<Transaction> recentTransactions;
   bool showChart;
 
-  ResponsivePageBody({
-    @required this.appBar,
-    @required this.userTransactions,
-    @required this.deleteTransactionHandler,
-    @required this.recentTransactions,
-    @required this.showChart
-  });
+  ResponsivePageBody(
+      {@required this.appBar,
+      @required this.userTransactions,
+      @required this.deleteTransactionHandler,
+      @required this.recentTransactions,
+      @required this.showChart});
 
   @override
   _ResponsivePageBodyState createState() => _ResponsivePageBodyState();
@@ -42,6 +41,68 @@ class _ResponsivePageBodyState extends State<ResponsivePageBody> {
       ),
     );
 
+    List<Widget> _buildLandscapeWidget({
+      @required MediaQueryData mediaQuery,
+      @required PreferredSizeWidget appBar,
+      @required Widget transactionListWidget,
+    }) {
+      return [
+        Container(
+          height: (mediaQuery.size.height -
+                  widget.appBar.preferredSize.height -
+                  mediaQuery.padding.top) *
+              0.2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Show Chart ',
+                style: Theme.of(context).textTheme.title,
+              ),
+              Switch.adaptive(
+                activeColor: Theme.of(context).accentColor,
+                value: widget.showChart,
+                onChanged: (value) {
+                  setState(() {
+                    widget.showChart = value;
+                  });
+                },
+              )
+            ],
+          ),
+        ),
+        widget.showChart
+            ? Container(
+                height: (mediaQuery.size.height -
+                        widget.appBar.preferredSize.height -
+                        mediaQuery.padding.top) *
+                    0.6,
+                child: Chart(
+                  recentTransactions: widget.recentTransactions,
+                ))
+            : transactionListWidget
+      ];
+    }
+
+    List<Widget> _buildPortraitWidget({
+      @required MediaQueryData mediaQuery,
+      @required PreferredSizeWidget appBar,
+      @required Widget transactionListWidget,
+    }) {
+      return [
+        Container(
+          height: (mediaQuery.size.height -
+                  widget.appBar.preferredSize.height -
+                  mediaQuery.padding.top) *
+              0.3,
+          child: Chart(
+            recentTransactions: widget.recentTransactions,
+          ),
+        ),
+        transactionListWidget
+      ];
+    }
+
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -49,51 +110,17 @@ class _ResponsivePageBodyState extends State<ResponsivePageBody> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isLandscape)
-              Container(
-                height: (mediaQuery.size.height -
-                        widget.appBar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    0.2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Show Chart ',
-                      style: Theme.of(context).textTheme.title,
-                    ),
-                    Switch.adaptive(
-                      activeColor: Theme.of(context).accentColor,
-                      value: widget.showChart,
-                      onChanged: (value) {
-                        setState(() {
-                          widget.showChart = value;
-                        });
-                      },
-                    )
-                  ],
-                ),
+              ..._buildLandscapeWidget(
+                mediaQuery: mediaQuery,
+                appBar: widget.appBar,
+                transactionListWidget: transactionListWidget,
               ),
+              
             if (!isLandscape)
-              Container(
-                  height: (mediaQuery.size.height -
-                          widget.appBar.preferredSize.height -
-                          mediaQuery.padding.top) *
-                      0.3,
-                  child: Chart(
-                    recentTransactions: widget.recentTransactions,
-                  )),
-            if (!isLandscape) transactionListWidget,
-            if (isLandscape)
-            widget.showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              widget.appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.6,
-                      child: Chart(
-                        recentTransactions: widget.recentTransactions,
-                      ))
-                  : transactionListWidget,
+              ..._buildPortraitWidget(
+                  mediaQuery: mediaQuery,
+                  appBar: widget.appBar,
+                  transactionListWidget: transactionListWidget),
           ],
         ),
       ),

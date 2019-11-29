@@ -10,16 +10,46 @@ import 'package:personal_expenses_app/widgets/adaptive_text_field.dart';
 class NewTransaction extends StatefulWidget {
   final Function addNewTransactionHandler;
 
-  NewTransaction({@required this.addNewTransactionHandler});
+  NewTransaction({@required this.addNewTransactionHandler}) {
+    print('Constructor NewTransaction');
+  }
 
   @override
-  _NewTransactionState createState() => _NewTransactionState();
+  _NewTransactionState createState() {
+    print('createState() New Transaction');
+    return _NewTransactionState();
+  }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime _selectedDate;
+
+  _NewTransactionState() {
+    print('Constructor NewTransactionState');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('initState()');
+  }
+
+  @override
+  void didUpdateWidget(NewTransaction oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    print('didUpdateWidget()');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print('dispose()');
+  }
 
   void _submitTransactionData() {
     if (_amountController.text.isEmpty) {
@@ -59,34 +89,36 @@ class _NewTransactionState extends State<NewTransaction> {
                 );
       return LayoutBuilder(builder: (builderContext, constraints) {
         return SafeArea(
-          child: Container(
-            height: constraints.maxHeight *0.44,
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                Padding(padding: EdgeInsets.only(top:constraints.maxHeight * 0.01,)),
-                Container(height: constraints.maxHeight * 0.02 ,child: Text('Expense Date', style: Theme.of(context).textTheme.title,)),
-                SizedBox(height: constraints.maxHeight *0.02,),
-                Container(
-                  height: constraints.maxHeight * 0.3,
-                  child: _cupertinoDatePicker
-                ),
-                SizedBox(height: constraints.maxHeight *0.01,),
-                Container(
-                  height: constraints.maxHeight * 0.07,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      AdaptiveFlatButton(
-                        title: 'Done',
-                        handler: () {
-                          Navigator.pop(context);
-                        },
-                      )
-                    ],
+          child: Center(
+            child: Container(
+              height: constraints.maxHeight *0.44,
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  Padding(padding: EdgeInsets.only(top:constraints.maxHeight * 0.01,)),
+                  Container(height: constraints.maxHeight * 0.02 ,child: Text('Expense Date', style: Theme.of(context).textTheme.title,)),
+                  SizedBox(height: constraints.maxHeight *0.02,),
+                  Container(
+                    height: constraints.maxHeight * 0.3,
+                    child: _cupertinoDatePicker
                   ),
-                )
-              ],
+                  SizedBox(height: constraints.maxHeight *0.01,),
+                  Container(
+                    height: constraints.maxHeight * 0.07,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        AdaptiveFlatButton(
+                          title: 'Done',
+                          handler: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );
@@ -129,14 +161,14 @@ class _NewTransactionState extends State<NewTransaction> {
                   title: 'Title',
                   textInputType: TextInputType.text,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 AdaptiveTextField(
                   title: 'Amount',
                   controller: _amountController,
                   handler: _submitTransactionData,
-                  textInputType: TextInputType.numberWithOptions(decimal: true),
+                  textInputType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 Container(
                   height: 60,

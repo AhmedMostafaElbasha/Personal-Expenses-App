@@ -9,7 +9,7 @@ class AdaptiveTextField extends StatelessWidget {
   final Function handler;
   final TextInputType textInputType;
 
-  AdaptiveTextField({
+  const AdaptiveTextField({
     @required this.title,
     @required this.controller,
     @required this.handler,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as prefix0;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           hintColor: Colors.purple,
           fontFamily: 'QuickSand',
           textTheme: ThemeData.light().textTheme.copyWith(
-              title: TextStyle(
+              title: const TextStyle(
                 fontFamily: 'OpenSans',
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
-                  title: TextStyle(
+                  title: const TextStyle(
                     fontFamily: 'OpenSans',
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -63,7 +64,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [
     // Transaction(
     //   id: "t1",
@@ -80,6 +81,25 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   bool _showChart = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    print(state);
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((transaction) {
@@ -148,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () => _startAddNewTransaction(context),
-                  child: Icon(CupertinoIcons.add),
+                  child: const Icon(CupertinoIcons.add),
                 )
               ],
             ),
@@ -159,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 onPressed: () => _startAddNewTransaction(context),
                 iconSize: 30,
               )
@@ -186,14 +206,14 @@ class _MyHomePageState extends State<MyHomePage> {
             floatingActionButton: Platform.isIOS
                 ? Container()
                 : FloatingActionButton(
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 30,
                     ),
                     onPressed: () => _startAddNewTransaction(context),
                   ),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
+                 FloatingActionButtonLocation.centerFloat,
           );
   }
 }

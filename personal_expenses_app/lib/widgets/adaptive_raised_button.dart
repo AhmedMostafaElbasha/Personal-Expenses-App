@@ -7,7 +7,7 @@ class AdaptiveRaisedButton extends StatelessWidget {
   final String title;
   final Function handler;
 
-  AdaptiveRaisedButton({
+  const AdaptiveRaisedButton({
     @required this.title,
     @required this.handler,
   });
@@ -16,7 +16,7 @@ class AdaptiveRaisedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Platform.isIOS
         ? CupertinoButton(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             onPressed: handler,
             child: Text(
               title,
